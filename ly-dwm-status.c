@@ -23,6 +23,14 @@ int main()
     char *network;
     char *status;
 
+    resource = (char *)malloc(sizeof(char) * 50);
+    battery = (char *)malloc(sizeof(char) * 10);
+    date = (char *)malloc(sizeof(char) * 30);
+    backlight = (char *)malloc(sizeof(char) * 10);
+    alsa = (char *)malloc(sizeof(char) * 10);
+    network = (char *)malloc(sizeof(char) * 20);
+    status = (char *)malloc(sizeof(char) * 150);
+
     if(!(dpy = XOpenDisplay(NULL))) {
 		fprintf(stderr, "dwmstatus: cannot open display.\n");
 		return 1;
@@ -30,13 +38,13 @@ int main()
 
     while(1)
     {
-        resource = (char *)malloc(sizeof(char) * 50);
-        battery = (char *)malloc(sizeof(char) * 10);
-        date = (char *)malloc(sizeof(char) * 30);
-        backlight = (char *)malloc(sizeof(char) * 10);
-        alsa = (char *)malloc(sizeof(char) * 10);
-        network = (char *)malloc(sizeof(char) * 20);
-        status = (char *)malloc(sizeof(char) * 150);
+        memset(resource, 0, 50);
+	memset(battery, 0, 10);
+	memset(date, 0, 30);
+	memset(backlight, 0, 10);
+	memset(alsa, 0, 10);
+	memset(network, 0, 20);
+	memset(status, 0, 150);
 
         getResource(resource);
         getBattery(battery);
@@ -49,17 +57,17 @@ int main()
         printf("%s\n", status);
         setstatus(status);
 
-        free(resource);
-        free(battery);
-        free(date);
-        free(backlight);
-        free(alsa);
-        free(network);
-        free(status);
-
         sleep(1);
     }
     
     XCloseDisplay(dpy);
-	return 0;
+    free(resource);
+    free(battery);
+    free(date);
+    free(backlight);
+    free(alsa);
+    free(network);
+    free(status);
+
+    return 0;
 }
